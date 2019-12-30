@@ -1,0 +1,19 @@
+{
+  "name": "se-nrtesting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/main.test.js",
+    "allure": "allure serve ./allure-results",
+    "clean": "rd /s /q .\\allure-results"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "mariadb": "^2.1.4",
+    "selenium-webdriver": "^4.0.0-alpha.5",
+    "uuid": "^3.3.3"
+  }
+}
