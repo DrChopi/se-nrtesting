@@ -71,12 +71,12 @@ module.exports = class Scenario {
 			        ]
 				},
 				name = cfg.content[1][i],
-				limit = cfg.content[1][i+1],
+				limit = i + 2 + cfg.content[1][i+1],
 				args = []; i += 2;
 
-				for(; i < limit; i++) args.push(cfg.content[1][i]);
+				for(; i < limit; i++) args.push(cfg.content[1][i].match(/^\$(.+)/) !== null ? this.sto[cfg.content[1][i].match(/^\$(.+)/)[1]] : cfg.content[1][i]);
 
-				console.log(name)
+				console.log(name, args)
 
 				if (this.status !== "failed") {
 					tmp.status = lib[name](args, new Transaction(2, wd), 2, this)
@@ -103,7 +103,7 @@ module.exports = class Scenario {
 					tmp.stop = Date.now()
 				}
 
-				i++
+				i--
 				this.model.children.push(tmp.uuid)
 				dta.allure.tra.push(tmp)
 			};
