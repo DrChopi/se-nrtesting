@@ -36,7 +36,7 @@ module.exports = class Scenario {
 
 	async run(dta, lib, cfg, dep) {
 		return new Promise(async resolve => {
-			console.log(dta, lib, cfg, dep)
+			//console.log(dta, lib, cfg, dep)
 			if(cfg.depend !== undefined && dep.depend[cfg.depend] === "failed")
 				this.status = "failed"
 

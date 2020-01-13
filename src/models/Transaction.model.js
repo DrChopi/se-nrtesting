@@ -2,26 +2,25 @@ module.exports = class Transaction {
 	constructor (max_tries, wd) {
 		this.max_tries = max_tries
 		this.status = "passed"
-		this.step = "running"
 		this.wd = wd
 		this.act = null
 	}
 
 	async fail(args, tr, inc, scope, err, res, rej, self) {
-		if (inc < 2) return 0;
+		if (inc < this.max_tries) { res(err); return 0; }
+		let tmp = {};
 
 		this.status = "broken"
-		for (; inc > 0 && this.step !== "finished"; inc--) await self(arg, tr, inc, scope);
-
-		if (this.step !== "finished")
-			rej(err)
-		else
-			res("broken")
+		for (; inc > 0 && (typeof await tmp) !== "string" ; inc--) {
+			tmp = await self(args, tr, inc-1, scope);
+			await tmp
+		}; (typeof tmp) === "string" ? res(tmp) : rej(tmp)
 	}
 
 	async end() {
 		await this.act
-		return this.step === "running" ? "fail" : this.status
+		console.log(this.status)
+		return this.status
 	}
 
 
