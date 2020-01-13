@@ -13,7 +13,8 @@ const SC01 = {
       [
         "Portail", 2, "https://rec-produits.groupe-pomona.fr/nuxeo/", "Groupe Pomona",
         "Connexion", 2, "ha-file7", "Pomona@Test",
-        "PageFournisseur", 0
+        "PageFournisseur", 0,
+        "FormulaireFournisseur", 0
       ]
     ]
 },

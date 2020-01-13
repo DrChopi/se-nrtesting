@@ -10,6 +10,7 @@ const WebDriver = require('selenium-webdriver'),
 module.exports = class Scenario {
 	constructor (cfg) {
 		this.sto = {}
+		this.parameters = []
 		for (let i in cfg)
 			this[i] = cfg[i]
 		this.status = "passed"
@@ -56,6 +57,7 @@ module.exports = class Scenario {
 					historyId : crypto.createHmac('sha256', 'secret').update(cfg.prefix + cfg.content[1][i]).digest('hex'),
 					stop : null,
 					stage: "finished",
+					parameters:  [],
 					statusDetails : {
 						"known": false,
 					    "muted": false,
@@ -105,13 +107,16 @@ module.exports = class Scenario {
 
 				i--
 				this.model.children.push(tmp.uuid)
+				tmp.parameters = this.parameters
 				dta.allure.tra.push(tmp)
+				this.parameters = []
 			};
 			//console.log(dta)
 			this.model.stop = Date.now()
 			dep.depend[this.model.name] = this.status
 			dta.allure.cmp.children.push(this.model.uuid)
 			dta.allure.scr.push(this.model)
+			await new Promise(r => setTimeout(() => r(true), 100))
 			await wd.quit()
 			resolve(dta.allure)
 		})

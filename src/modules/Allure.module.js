@@ -26,10 +26,17 @@ module.exports = class Allure {
 			console.log(this.scr)
 
 			await new Promise(r => fs.writeFile(this.dir + '/allure-results/' + this.cmp.uuid + '-container.json', JSON.stringify(this.cmp), 'ascii', () => r(true)));
+			await new Promise(r => setTimeout(() => r(), 2000))
+
 			for (let i = 0; i < this.scr.length; i++)
 				await new Promise(r => fs.writeFile(this.dir + '/allure-results/' + this.scr[i].uuid + '-container.json', JSON.stringify(this.scr[i]), 'ascii', () => r(true)));
-			for (let i = 0; i < this.tra.length; i++)
+			for (let i = 0; i < this.tra.length; i++) {
+				this.tra[i].labels.push({
+			      "name": "parentSuite",
+			      "value": this.cmp.name
+			    })
 				await new Promise(r => fs.writeFile(this.dir + '/allure-results/' + this.tra[i].uuid + '-result.json', JSON.stringify(this.tra[i]), 'ascii', () => r(true)));
+			}
 			
 			setTimeout(() => resolve(true), 2000)
 		})
