@@ -8,10 +8,10 @@ module.exports = class Transaction {
 	}
 
 	async fail(args, tr, inc, scope, err, res, rej, self) {
-		if (inc < 2) resolve(false);
+		if (inc < 2) return 0;
 
 		this.status = "broken"
-		for (; inc > 0 && this.step !== "finished"; inc--) await self(arg, tr, 0, scope);
+		for (; inc > 0 && this.step !== "finished"; inc--) await self(arg, tr, inc, scope);
 
 		if (this.step !== "finished")
 			rej(err)
